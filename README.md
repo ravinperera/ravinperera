@@ -24,10 +24,10 @@ I work across cloud architecture, platform engineering, release automation, and 
 ## Showcase Projects
 
 - [`aws-ecs-fargate-terraform-atmos`](https://github.com/ravinperera/aws-ecs-fargate-terraform-atmos) - reusable Terraform/Atmos pattern for ECS services
+- [`github-actions-oidc-aws-deployment`](https://github.com/ravinperera/github-actions-oidc-aws-deployment) - secure GitHub Actions deployment flow using AWS OIDC roles
 
 Planned additions:
 
-- `github-actions-oidc-aws-deployment` - secure GitHub Actions deployment flow using AWS OIDC roles
 - `aws-security-baseline-control-tower` - example AWS account governance and security baseline
 - `ecs-observability-otel-opensearch` - logging and telemetry pattern for ECS workloads
 
