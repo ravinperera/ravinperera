@@ -21,11 +21,12 @@ I work across cloud architecture, platform engineering, release automation, and 
 - Reducing manual infrastructure operations through reusable Terraform components
 - Improving access governance, secrets handling, logging, and monitoring across cloud environments
 
-## Showcase Projects To Add
+## Showcase Projects
 
-These are the types of projects I am building and documenting here:
+- [`aws-ecs-fargate-terraform-atmos`](https://github.com/ravinperera/aws-ecs-fargate-terraform-atmos) - reusable Terraform/Atmos pattern for ECS services
 
-- `aws-ecs-fargate-terraform-atmos` - reusable Terraform/Atmos pattern for ECS services
+Planned additions:
+
 - `github-actions-oidc-aws-deployment` - secure GitHub Actions deployment flow using AWS OIDC roles
 - `aws-security-baseline-control-tower` - example AWS account governance and security baseline
 - `ecs-observability-otel-opensearch` - logging and telemetry pattern for ECS workloads
