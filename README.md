@@ -20,9 +20,11 @@ I work across cloud architecture, platform engineering, release automation, and 
 - Secure GitHub-to-AWS deployment automation using OIDC
 - Reducing manual infrastructure operations through reusable Terraform components
 - Improving access governance, secrets handling, logging, and monitoring across cloud environments
+- Practical AI security and governance for engineering and SaaS teams
 
 ## Showcase Projects
 
+- [`ai-security-governance-checklist`](https://github.com/ravinperera/ai-security-governance-checklist) - practical AI security and governance checklist for engineering, DevOps, SaaS, and regulated environments
 - [`aws-ecs-fargate-terraform-atmos`](https://github.com/ravinperera/aws-ecs-fargate-terraform-atmos) - reusable Terraform/Atmos pattern for ECS services
 - [`github-actions-oidc-aws-deployment`](https://github.com/ravinperera/github-actions-oidc-aws-deployment) - secure GitHub Actions deployment flow using AWS OIDC roles
 - [`aws-security-baseline-control-tower`](https://github.com/ravinperera/aws-security-baseline-control-tower) - AWS multi-account governance and security baseline
