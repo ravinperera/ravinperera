@@ -39,6 +39,8 @@ I work across cloud architecture, platform engineering, release automation, and 
 - [`aws-security-baseline-control-tower`](https://github.com/ravinperera/aws-security-baseline-control-tower) - AWS multi-account governance and security baseline
 - [`ecs-observability-otel-opensearch`](https://github.com/ravinperera/ecs-observability-otel-opensearch) - ECS logging, telemetry, and OpenSearch observability pattern
 
+See the [project map](docs/project-map.md) for how these repositories fit together.
+
 ## Core Stack
 
 AWS, Terraform, Atmos, GitHub Actions, Docker, ECS Fargate, RDS, Redis, OpenSearch, CloudWatch, OpenTelemetry, Cloudflare, Microsoft Entra ID, IAM Identity Center, Secrets Manager, Linux, Python, Django, Bash.
