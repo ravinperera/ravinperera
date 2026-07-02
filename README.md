@@ -14,6 +14,14 @@ I work across cloud architecture, platform engineering, release automation, and 
 - Observability using CloudWatch, OpenTelemetry, and centralized logging
 - Security and compliance alignment for ISO 27001, SOC 2, GDPR, and client assurance requirements
 
+## Platform Engineering Principles
+
+- Make secure defaults easy for engineering teams to adopt.
+- Prefer repeatable infrastructure patterns over one-off manual fixes.
+- Keep deployment pipelines simple enough to operate under pressure.
+- Treat observability, access control, and rollback planning as part of delivery, not afterthoughts.
+- Document operational decisions so future support and audits are easier.
+
 ## Current Focus
 
 - Production-grade ECS deployment patterns for Django and Celery workloads
