@@ -37,14 +37,13 @@ jobs:
         env:
           REPOSITORY: ${{ github.repository }}
           REF: ${{ github.ref }}
-          SHA: ${{ github.sha }}
           SERVER_URL: ${{ github.server_url }}
         run: |
           set -euo pipefail
           git init --initial-branch=worktree .
           git remote add origin "${SERVER_URL}/${REPOSITORY}.git"
           git fetch --no-tags --depth=1 origin "${REF}"
-          git checkout --detach "${SHA}"
+          git checkout --detach FETCH_HEAD
 
       - name: Run audit unit tests
         shell: bash
@@ -71,14 +70,13 @@ jobs:
         env:
           REPOSITORY: ${{ github.repository }}
           REF: ${{ github.ref }}
-          SHA: ${{ github.sha }}
           SERVER_URL: ${{ github.server_url }}
         run: |
           set -euo pipefail
           git init --initial-branch=worktree .
           git remote add origin "${SERVER_URL}/${REPOSITORY}.git"
           git fetch --no-tags --depth=1 origin "${REF}"
-          git checkout --detach "${SHA}"
+          git checkout --detach FETCH_HEAD
 
       - name: Create or refresh the weekly research backlog
         shell: bash
