@@ -12,20 +12,24 @@ on:
       - .github/workflows/weekly-repository-research.yml
       - .github/scripts/weekly_repository_research.py
       - .github/scripts/test_weekly_repository_research.py
+  pull_request:
+    paths:
+      - .github/workflows/weekly-repository-research.yml
+      - .github/scripts/weekly_repository_research.py
+      - .github/scripts/test_weekly_repository_research.py
 
 permissions:
   contents: read
-  issues: write
 
 concurrency:
-  group: weekly-repository-research
-  cancel-in-progress: false
+  group: weekly-repository-research-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  research:
-    name: Refresh portfolio improvement backlog
+  validate:
+    name: Validate research audit
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
 
     steps:
       - name: Fetch the exact repository revision
@@ -50,6 +54,31 @@ jobs:
             -s .github/scripts \
             -p 'test_weekly_repository_research.py' \
             -v
+
+  research:
+    name: Refresh portfolio improvement backlog
+    if: github.event_name != 'pull_request'
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      issues: write
+
+    steps:
+      - name: Fetch the exact repository revision
+        shell: bash
+        env:
+          REPOSITORY: ${{ github.repository }}
+          REF: ${{ github.ref }}
+          SHA: ${{ github.sha }}
+          SERVER_URL: ${{ github.server_url }}
+        run: |
+          set -euo pipefail
+          git init --initial-branch=worktree .
+          git remote add origin "${SERVER_URL}/${REPOSITORY}.git"
+          git fetch --no-tags --depth=1 origin "${REF}"
+          git checkout --detach "${SHA}"
 
       - name: Create or refresh the weekly research backlog
         shell: bash
