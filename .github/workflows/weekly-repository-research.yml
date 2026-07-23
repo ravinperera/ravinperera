@@ -1,0 +1,62 @@
+name: Weekly repository research
+
+on:
+  schedule:
+    # GitHub schedules use UTC. Monday 07:17 UTC is 07:17 GMT / 08:17 BST.
+    - cron: "17 7 * * 1"
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/weekly-repository-research.yml
+      - .github/scripts/weekly_repository_research.py
+      - .github/scripts/test_weekly_repository_research.py
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: weekly-repository-research
+  cancel-in-progress: false
+
+jobs:
+  research:
+    name: Refresh portfolio improvement backlog
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Fetch the exact repository revision
+        shell: bash
+        env:
+          REPOSITORY: ${{ github.repository }}
+          REF: ${{ github.ref }}
+          SHA: ${{ github.sha }}
+          SERVER_URL: ${{ github.server_url }}
+        run: |
+          set -euo pipefail
+          git init --initial-branch=worktree .
+          git remote add origin "${SERVER_URL}/${REPOSITORY}.git"
+          git fetch --no-tags --depth=1 origin "${REF}"
+          git checkout --detach "${SHA}"
+
+      - name: Run audit unit tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover \
+            -s .github/scripts \
+            -p 'test_weekly_repository_research.py' \
+            -v
+
+      - name: Create or refresh the weekly research backlog
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPORT_REPOSITORY: ${{ github.repository }}
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: |
+          set -euo pipefail
+          python3 .github/scripts/weekly_repository_research.py --max-per-repo 5
