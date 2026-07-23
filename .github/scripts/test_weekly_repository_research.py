@@ -94,6 +94,19 @@ class RepositoryResearchTests(unittest.TestCase):
         ):
             self.assertNotIn(existing, keys)
 
+    def test_issue_chooser_config_is_not_treated_as_an_issue_form(self) -> None:
+        target = research.Target(
+            "example/docs", frozenset({"ai", "security", "docs"}), "Docs"
+        )
+        snapshot = self.snapshot(
+            target.repository, {".github/ISSUE_TEMPLATE/config.yml": "blob"}
+        )
+        keys = {
+            item["practice"].key
+            for item in research.candidates(target, snapshot, ())
+        }
+        self.assertIn("issue-forms", keys)
+
     def test_reference_adoption_is_included_as_evidence(self) -> None:
         target = research.Target(
             "example/ai", frozenset({"ai", "security", "docs"}), "AI example"
