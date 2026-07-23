@@ -94,7 +94,7 @@ class RepositoryResearchTests(unittest.TestCase):
         ):
             self.assertNotIn(existing, keys)
 
-    def test_issue_chooser_config_is_not_treated_as_an_issue_form(self) -> None:
+    def test_issue_chooser_config_counts_as_structured_routing(self) -> None:
         target = research.Target(
             "example/docs", frozenset({"ai", "security", "docs"}), "Docs"
         )
@@ -105,7 +105,7 @@ class RepositoryResearchTests(unittest.TestCase):
             item["practice"].key
             for item in research.candidates(target, snapshot, ())
         }
-        self.assertIn("issue-forms", keys)
+        self.assertNotIn("issue-forms", keys)
 
     def test_reference_adoption_is_included_as_evidence(self) -> None:
         target = research.Target(
