@@ -41,6 +41,10 @@ I work across cloud architecture, platform engineering, release automation, and 
 
 See the [project map](docs/project-map.md) for how these repositories fit together.
 
+## Portfolio Maintenance
+
+The [repository improvement research](docs/repository-improvement-research.md) records the engineering practices used to evaluate this portfolio and a tailored backlog for each showcase repository. A weekly GitHub Actions audit refreshes one standing research issue; weekday implementation work remains limited to focused, useful changes with issues, validation, and normal pull-request review.
+
 ## Core Stack
 
 AWS, Terraform, Atmos, GitHub Actions, Docker, ECS Fargate, RDS, Redis, OpenSearch, CloudWatch, OpenTelemetry, Cloudflare, Microsoft Entra ID, IAM Identity Center, Secrets Manager, Linux, Python, Django, Bash.
