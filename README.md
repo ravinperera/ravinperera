@@ -43,6 +43,17 @@ I work across cloud architecture, platform engineering, release automation, and 
 
 See the [project map](docs/project-map.md) for how these repositories fit together.
 
+## Validate Profile Documentation
+
+Run the dependency-free checks before changing the profile README or project documentation:
+
+```bash
+python3 -m unittest discover -s tests -p 'test_validate_profile.py' -v
+python3 scripts/validate_profile.py
+```
+
+The validator checks `README.md` and Markdown under `docs/` for UTF-8 text hygiene, final newlines, trailing whitespace, and missing relative link targets. It ignores external URLs, anchors, and links shown inside fenced code examples.
+
 ## Portfolio Maintenance
 
 The [repository improvement research](docs/repository-improvement-research.md) records the engineering practices used to evaluate this portfolio and a tailored backlog for each showcase repository. A weekly GitHub Actions audit refreshes one standing research issue; weekday implementation work remains limited to focused, useful changes with issues, validation, and normal pull-request review.
