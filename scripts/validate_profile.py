@@ -25,7 +25,7 @@ def markdown_files(root: Path) -> list[Path]:
 
 def lines_outside_fences(text: str):
     fence: str | None = None
-    for line in text.splitlines():
+    for line_number, line in enumerate(text.splitlines(), start=1):
         stripped = line.lstrip()
         marker = stripped[:3]
         if marker in {"```", "~~~"}:
@@ -35,7 +35,7 @@ def lines_outside_fences(text: str):
                 fence = None
             continue
         if fence is None:
-            yield line
+            yield line_number, line
 
 
 def local_link_target(raw_target: str) -> str | None:
@@ -69,7 +69,7 @@ def validate_file(path: Path, root: Path) -> list[str]:
         if line != line.rstrip(" \t"):
             errors.append(f"{relative}:{line_number}: trailing whitespace")
 
-    for line_number, line in enumerate(lines_outside_fences(text), start=1):
+    for line_number, line in lines_outside_fences(text):
         for match in LINK_RE.finditer(line):
             target = local_link_target(match.group(1))
             if target is None:
