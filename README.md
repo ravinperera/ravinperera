@@ -34,6 +34,8 @@ I work across cloud architecture, platform engineering, release automation, and 
 
 - [`ai-token-efficiency-playbook`](https://github.com/ravinperera/ai-token-efficiency-playbook) - drop-in instructions, prompts, and workflows to reduce token usage across AI coding agents
 - [`ai-security-governance-checklist`](https://github.com/ravinperera/ai-security-governance-checklist) - practical AI security and governance checklist for engineering, DevOps, SaaS, and regulated environments
+- [`ai-devops-guardrails`](https://github.com/ravinperera/ai-devops-guardrails) - operational guardrails for safer AI-assisted DevOps reviews and deployment decisions
+- [`ai-agent-registry-governance`](https://github.com/ravinperera/ai-agent-registry-governance) - policy-as-code approach for cataloguing and approving AI agents, skills, and MCP resources
 - [`aws-ecs-fargate-terraform-atmos`](https://github.com/ravinperera/aws-ecs-fargate-terraform-atmos) - reusable Terraform/Atmos pattern for ECS services
 - [`github-actions-oidc-aws-deployment`](https://github.com/ravinperera/github-actions-oidc-aws-deployment) - secure GitHub Actions deployment flow using AWS OIDC roles
 - [`aws-security-baseline-control-tower`](https://github.com/ravinperera/aws-security-baseline-control-tower) - AWS multi-account governance and security baseline
