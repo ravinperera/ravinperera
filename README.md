@@ -52,7 +52,9 @@ python3 -m unittest discover -s tests -p 'test_validate_profile.py' -v
 python3 scripts/validate_profile.py
 ```
 
-The validator checks `README.md` and Markdown under `docs/` for UTF-8 text hygiene, final newlines, trailing whitespace, and missing relative link targets. It ignores external URLs, anchors, and links shown inside fenced code examples.
+The validator checks `README.md` and Markdown under `docs/` for UTF-8 text hygiene, final newlines, trailing whitespace, repository-boundary-safe relative links, and missing local link targets. It ignores external URLs, anchors, and links shown inside fenced code examples.
+
+GitHub Actions runs the same dependency-free tests and validation on relevant pull requests and pushes to `main` with read-only repository permissions and no cloud credentials.
 
 ## Portfolio Maintenance
 
