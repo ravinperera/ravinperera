@@ -75,7 +75,13 @@ def validate_file(path: Path, root: Path) -> list[str]:
             if target is None:
                 continue
             candidate = (root / target.lstrip("/")) if target.startswith("/") else (path.parent / target)
-            if not candidate.resolve().exists():
+            resolved_candidate = candidate.resolve()
+            try:
+                resolved_candidate.relative_to(root)
+            except ValueError:
+                errors.append(f"{relative}:{line_number}: link target escapes repository {target!r}")
+                continue
+            if not resolved_candidate.exists():
                 errors.append(f"{relative}:{line_number}: missing local link target {target!r}")
 
     return errors
