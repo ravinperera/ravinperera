@@ -28,6 +28,19 @@ class ValidateProfileTests(unittest.TestCase):
             self.assertEqual(len(errors), 1)
             self.assertIn("missing local link target 'docs/missing.md'", errors[0])
 
+    def test_relative_link_cannot_escape_repository(self):
+        with tempfile.TemporaryDirectory() as directory:
+            parent = Path(directory)
+            root = parent / "repo"
+            root.mkdir()
+            (parent / "outside.md").write_text("# Outside\n", encoding="utf-8")
+            (root / "README.md").write_text("[Outside](../outside.md)\n", encoding="utf-8")
+
+            errors = validate(root)
+
+            self.assertEqual(len(errors), 1)
+            self.assertIn("link target escapes repository '../outside.md'", errors[0])
+
     def test_text_hygiene_failures_are_reported(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
