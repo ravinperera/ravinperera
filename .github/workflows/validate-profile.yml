@@ -1,0 +1,62 @@
+name: Validate profile documentation
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - README.md
+      - docs/**
+      - scripts/validate_profile.py
+      - tests/test_validate_profile.py
+      - .github/workflows/validate-profile.yml
+  pull_request:
+    paths:
+      - README.md
+      - docs/**
+      - scripts/validate_profile.py
+      - tests/test_validate_profile.py
+      - .github/workflows/validate-profile.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-profile-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Profile documentation
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Fetch the exact repository revision
+        shell: bash
+        env:
+          REPOSITORY: ${{ github.repository }}
+          REF: ${{ github.ref }}
+          SERVER_URL: ${{ github.server_url }}
+        run: |
+          set -euo pipefail
+          git init --initial-branch=worktree .
+          git remote add origin "${SERVER_URL}/${REPOSITORY}.git"
+          git fetch --no-tags --depth=1 origin "${REF}"
+          git checkout --detach FETCH_HEAD
+
+      - name: Run profile validation tests
+        shell: bash
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s tests -p 'test_validate_profile.py' -v
+
+      - name: Validate profile documentation
+        shell: bash
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: |
+          set -euo pipefail
+          python3 scripts/validate_profile.py
