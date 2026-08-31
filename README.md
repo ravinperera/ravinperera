@@ -30,6 +30,17 @@ I work across cloud architecture, platform engineering, release automation, and 
 - Improving access governance, secrets handling, logging, and monitoring across cloud environments
 - Practical AI security, governance, and token efficiency for engineering teams
 
+## AI Engineering Governance Framework
+
+The four AI repositories below are designed to be read together as one practical framework rather than as isolated projects:
+
+1. Start with [`ai-security-governance-checklist`](https://github.com/ravinperera/ai-security-governance-checklist) for organisation-level controls, risk boundaries, evidence, and governance expectations.
+2. Use [`ai-agent-registry-governance`](https://github.com/ravinperera/ai-agent-registry-governance) to catalogue and approve agents, skills, MCP servers, and related AI resources.
+3. Apply [`ai-devops-guardrails`](https://github.com/ravinperera/ai-devops-guardrails) when AI is reviewing or assisting with infrastructure, CI/CD, IAM, deployments, and other operational changes.
+4. Use [`ai-token-efficiency-playbook`](https://github.com/ravinperera/ai-token-efficiency-playbook) to reduce unnecessary context and token use without weakening verification or traceability.
+
+Together, they cover **what is allowed, what is registered, how engineering actions are constrained, and how AI context is used efficiently**. See the [project map](docs/project-map.md) for the wider portfolio and repository relationships.
+
 ## Showcase Projects
 
 - [`ai-token-efficiency-playbook`](https://github.com/ravinperera/ai-token-efficiency-playbook) - drop-in instructions, prompts, and workflows to reduce token usage across AI coding agents
