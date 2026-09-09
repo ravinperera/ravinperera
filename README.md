@@ -52,7 +52,7 @@ Together, they cover **what is allowed, what is registered, how engineering acti
 - [`aws-security-baseline-control-tower`](https://github.com/ravinperera/aws-security-baseline-control-tower) - AWS multi-account governance and security baseline
 - [`ecs-observability-otel-opensearch`](https://github.com/ravinperera/ecs-observability-otel-opensearch) - ECS logging, telemetry, and OpenSearch observability pattern
 
-See the [project map](docs/project-map.md) for how these repositories fit together.
+See the [project map](docs/project-map.md) for how these repositories fit together. For direct links to tests, CI, security documentation, runbooks, schemas, and implementation artefacts, use the [engineering evidence index](docs/evidence-index.md).
 
 ## Validate Profile Documentation
 
