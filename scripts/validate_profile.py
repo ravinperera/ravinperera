@@ -8,7 +8,7 @@ import re
 from pathlib import Path
 from urllib.parse import unquote
 
-LINK_RE = re.compile(r"(?<!!)\[[^\]]+\]\(([^)]+)\)")
+LINK_RE = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
 EXTERNAL_PREFIXES = ("http://", "https://", "mailto:", "tel:")
 
 
