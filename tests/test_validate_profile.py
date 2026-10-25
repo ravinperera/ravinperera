@@ -28,6 +28,53 @@ class ValidateProfileTests(unittest.TestCase):
             self.assertEqual(len(errors), 1)
             self.assertIn("missing local link target 'docs/missing.md'", errors[0])
 
+    def test_existing_local_image_passes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "docs").mkdir()
+            (root / "docs" / "architecture.png").write_bytes(b"image fixture")
+            (root / "README.md").write_text(
+                "![Architecture](docs/architecture.png)\n", encoding="utf-8"
+            )
+
+            self.assertEqual(validate(root), [])
+
+    def test_missing_local_image_is_reported(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "README.md").write_text(
+                "![](docs/missing.png)\n", encoding="utf-8"
+            )
+
+            errors = validate(root)
+
+            self.assertEqual(len(errors), 1)
+            self.assertIn("missing local link target 'docs/missing.png'", errors[0])
+
+    def test_image_link_cannot_escape_repository(self):
+        with tempfile.TemporaryDirectory() as directory:
+            parent = Path(directory)
+            root = parent / "repo"
+            root.mkdir()
+            (parent / "outside.png").write_bytes(b"image fixture")
+            (root / "README.md").write_text(
+                "![Outside](../outside.png)\n", encoding="utf-8"
+            )
+
+            errors = validate(root)
+
+            self.assertEqual(len(errors), 1)
+            self.assertIn("link target escapes repository '../outside.png'", errors[0])
+
+    def test_image_inside_fenced_example_is_ignored(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "README.md").write_text(
+                "```md\n![Example](docs/missing.png)\n```\n", encoding="utf-8"
+            )
+
+            self.assertEqual(validate(root), [])
+
     def test_relative_link_cannot_escape_repository(self):
         with tempfile.TemporaryDirectory() as directory:
             parent = Path(directory)
