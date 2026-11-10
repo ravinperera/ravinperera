@@ -40,13 +40,14 @@ def lines_outside_fences(text: str):
 
 def local_link_target(raw_target: str) -> str | None:
     target = raw_target.strip()
-    if target.startswith("<") and target.endswith(">"):
-        target = target[1:-1].strip()
+    if target.startswith("<") and ">" in target:
+        # Whitespace inside an angle-delimited path belongs to the filename.
+        target = target[1:target.index(">")].strip()
+    else:
+        # Bare destinations may be followed by an optional Markdown title.
+        target = target.split(maxsplit=1)[0] if target else ""
     if not target or target.startswith("#") or target.startswith(EXTERNAL_PREFIXES):
         return None
-
-    # Remove an optional Markdown title after a whitespace separator.
-    target = target.split(maxsplit=1)[0]
     target = target.split("#", 1)[0].split("?", 1)[0]
     target = unquote(target)
     return target or None
