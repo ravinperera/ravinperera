@@ -88,6 +88,47 @@ class ValidateProfileTests(unittest.TestCase):
             self.assertEqual(len(errors), 1)
             self.assertIn("link target escapes repository '../outside.md'", errors[0])
 
+    def test_angle_bracket_links_with_spaces_and_optional_titles_pass(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "docs").mkdir()
+            (root / "docs" / "my guide.md").write_text("# Guide\n", encoding="utf-8")
+
+            for link in (
+                "[Guide](<docs/my guide.md>)",
+                '[Guide](<docs/my guide.md> "Project guide")',
+            ):
+                with self.subTest(link=link):
+                    (root / "README.md").write_text(link + "\n", encoding="utf-8")
+                    self.assertEqual(validate(root), [])
+
+    def test_missing_angle_bracket_link_with_spaces_is_reported(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "README.md").write_text(
+                "[Missing](<docs/missing guide.md>)\n", encoding="utf-8"
+            )
+
+            errors = validate(root)
+
+            self.assertEqual(len(errors), 1)
+            self.assertIn("missing local link target 'docs/missing guide.md'", errors[0])
+
+    def test_angle_bracket_link_with_spaces_cannot_escape_repository(self):
+        with tempfile.TemporaryDirectory() as directory:
+            parent = Path(directory)
+            root = parent / "repo"
+            root.mkdir()
+            (parent / "outside file.md").write_text("# Outside\n", encoding="utf-8")
+            (root / "README.md").write_text(
+                '[Outside](<../outside file.md> "Outside")\n', encoding="utf-8"
+            )
+
+            errors = validate(root)
+
+            self.assertEqual(len(errors), 1)
+            self.assertIn("link target escapes repository '../outside file.md'", errors[0])
+
     def test_text_hygiene_failures_are_reported(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
