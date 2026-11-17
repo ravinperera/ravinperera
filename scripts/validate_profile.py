@@ -24,19 +24,24 @@ def markdown_files(root: Path) -> list[Path]:
 
 
 def lines_outside_fences(text: str):
-    fence: str | None = None
+    fence: tuple[str, int] | None = None
     for line_number, line in enumerate(text.splitlines(), start=1):
         stripped = line.lstrip()
-        marker = stripped[:3]
-        if marker in {"```", "~~~"}:
+        marker_match = re.match(r"(`{3,}|~{3,})", stripped)
+        if marker_match is not None:
+            marker = marker_match.group(1)
             if fence is None:
-                fence = marker
-            elif marker == fence:
+                fence = (marker[0], len(marker))
+                continue
+            if (
+                marker[0] == fence[0]
+                and len(marker) >= fence[1]
+                and not stripped[marker_match.end():].strip()
+            ):
                 fence = None
-            continue
+                continue
         if fence is None:
             yield line_number, line
-
 
 def local_link_target(raw_target: str) -> str | None:
     target = raw_target.strip()
