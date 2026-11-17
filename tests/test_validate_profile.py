@@ -129,6 +129,57 @@ class ValidateProfileTests(unittest.TestCase):
             self.assertEqual(len(errors), 1)
             self.assertIn("link target escapes repository '../outside file.md'", errors[0])
 
+    def test_long_backtick_fence_ignores_short_closer(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "README.md").write_text(
+                "````markdown\n"
+                "[inside](missing-inside.md)\n"
+                "```\n"
+                "[still inside](missing-after-short.md)\n"
+                "````\n"
+                "[outside](missing-outside.md)\n",
+                encoding="utf-8",
+            )
+
+            errors = validate(root)
+
+            self.assertEqual(len(errors), 1)
+            self.assertIn("missing-outside.md", errors[0])
+
+    def test_long_tilde_fence_allows_longer_closer(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "README.md").write_text(
+                "~~~~markdown\n"
+                "[inside](missing-inside.md)\n"
+                "~~~~~\n"
+                "[outside](missing-outside.md)\n",
+                encoding="utf-8",
+            )
+
+            errors = validate(root)
+
+            self.assertEqual(len(errors), 1)
+            self.assertIn("missing-outside.md", errors[0])
+
+    def test_closing_fence_with_suffix_text_does_not_close(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "README.md").write_text(
+                "```markdown\n"
+                "```not-a-closer\n"
+                "[inside](missing-inside.md)\n"
+                "```\n"
+                "[outside](missing-outside.md)\n",
+                encoding="utf-8",
+            )
+
+            errors = validate(root)
+
+            self.assertEqual(len(errors), 1)
+            self.assertIn("missing-outside.md", errors[0])
+
     def test_text_hygiene_failures_are_reported(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
